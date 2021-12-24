@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,12 +40,8 @@ namespace CallRequestResponseService
                             "input1",
                             new StringTable()
                             {
-                                ColumnNames = new string[] {"MPG", "Cyl", "Displacement", "Horsepower", "Weight", "Acceleration", "Year", "CountryCode", "Model"},
-                                Values = new string[,] {    { "18", "8", "307", "130", "3504", "12", "70", "1", "chevrolet chevelle malibu" },
-                                                            { "15", "8", "350", "165", "3693", "11.5", "70", "1", "buick skylark 320" },
-                                                            { "18", "8", "318", "150", "3436", "11", "70", "1", "plymouth satellite" },
-                                                            { "16", "8", "304", "150", "3433", "12", "70", "1", "amc rebel sst" },
-                                                            { "17", "8", "302", "140", "3449", "010.5", "70", "1", "ford torino" },}
+                                ColumnNames = new string[] {"Recency (months)", "Frequency (times)", "Monetary (c.c. blood)", "Time (months)", "whether he/she donated blood in March 2007"},
+                                Values = new string[,] {  { "2", "50", "12500", "98", "1" },  { "0", "13", "3250", "28", "1" },  }
                             }
                         },
                     },
@@ -54,10 +49,10 @@ namespace CallRequestResponseService
                     {
                     }
                 };
-                const string apiKey = "NrzDmXfBTDGxSEDlRU5NJS/BVzwZiqFfit3RNwhrLAWsw/0j+hGK8PNR/EniE3T5QK0KnDlMMrD3aRNlIGQjHQ=="; // Replace this with the API key for the web service
+                const string apiKey = "CegzfUac93pHDdIBpRkLah0tLeteqM2oT1ZqUkEwkvTuPMhPDScfkrPmrTOQDAxFBVC/p4NRRgt11GI3LqZWBw=="; // Replace this with the API key for the web service
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
 
-                client.BaseAddress = new Uri("https://ussouthcentral.services.azureml.net/workspaces/889b25616ea447c68045ee77fede6907/services/57f21e4ca3ef4c5d8f49c97c39942932/execute?api-version=2.0&details=true");
+                client.BaseAddress = new Uri("https://ussouthcentral.services.azureml.net/workspaces/889b25616ea447c68045ee77fede6907/services/d183f9da7fdf4038acb3ac957af6589e/execute?api-version=2.0&details=true");
 
                 // WARNING: The 'await' statement below can result in a deadlock if you are calling this code from the UI thread of an ASP.Net application.
                 // One way to address this would be to call ConfigureAwait(false) so that the execution does not attempt to resume on the original context.
@@ -73,7 +68,6 @@ namespace CallRequestResponseService
                 {
                     string result = await response.Content.ReadAsStringAsync();
                     Console.WriteLine("Result: {0}", result);
-                    Console.WriteLine();
                 }
                 else
                 {
@@ -81,13 +75,10 @@ namespace CallRequestResponseService
 
                     // Print the headers - they include the requert ID and the timestamp, which are useful for debugging the failure
                     Console.WriteLine(response.Headers.ToString());
-                    Console.WriteLine();
 
                     string responseContent = await response.Content.ReadAsStringAsync();
                     Console.WriteLine(responseContent);
-                    Console.WriteLine();
                 }
-
             }
         }
     }
